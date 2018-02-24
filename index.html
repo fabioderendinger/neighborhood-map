@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>Neighborhood Map</title>
+
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="css/lib/materialize.min.css"  media="screen,projection"/>
+        <!--Import style.css-->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <!--Import Font-->
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:700" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!--Import jQuery before materialize.js-->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="js/lib/materialize.min.js"></script>
+
+    </head>
+
+    <body>
+        <!-- List of Places         -->
+        <div class="options-box" data-bind="visible: mobileOptions">
+            <div class="search-box">
+                <div class="input-field">
+                    <input placeholder="Search" id="search" type="text" class="search" data-bind="textInput: filter">
+                    <i class="material-icons search-icon">search</i>
+                </div>
+            </div>
+            <div class="places">
+                <ul class="collapsible-wrapper" data-bind="foreach: filteredLocations">
+                    <li data-bind="">
+                        <div class="collapsible-header" data-bind="click: $parent.toggleInfo, css: { collapsed: focus }">
+                            <span data-bind="text: title"></span>
+                        </div>
+                        
+                        <div class="collapsible-body" data-bind="css: { collapsed: focus() == false }">
+                            <!-- ko if: focus -->
+                            <div class="place-wrapper" data-bind="with: $parent.placeDetails">                        
+                                <div class="img-wrapper" data-bind="html: photo"></div>
+                                <div class="title" data-bind="text: name"></div>
+                            </div>
+                            <div class="wiki-snippet" data-bind="html: $parent.wikiExtract"></div>
+                            <div class="place-wrapper" data-bind="with: $parent.placeDetails">                            
+                                <div class="details-wrapper"><i class="tiny material-icons details-icon">location_on</i><span class="" data-bind="text: address"></span></div>
+                                <div class="details-wrapper"><i class="tiny material-icons details-icon">access_time</i><span class="" data-bind="text: open_now"></span></div>
+                                <div class="details-wrapper"><i class="tiny material-icons details-icon">link</i><span class="" data-bind="html: website"></span></div>
+                            </div>
+                            <!-- /ko -->
+                        </div>
+                        
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- Google maps -->
+        <div id="map"></div>
+        <!-- Button to show/hide List of Places on mobile phones -->
+        <div class="toggle-options" data-bind="click: toggleOptions"><span data-bind="text: mobileOptions() ? 'Hide Places' : 'Show Places'"></span></div>
+    </body>
+
+    
+    <script src="js/lib/knockout-3.4.2.js"></script>
+    <script src="js/app.js"></script>
+    <!-- Import the Google Maps JS library and initialize the initApp function -->
+    <script async defer
+        src=
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyAc-A3NK-h-q-lx6Y4FGsx_E21qC98Dsz4&libraries=places,geometry&v=3&callback=initApp">
+    </script>
+</html>
+
+
+
