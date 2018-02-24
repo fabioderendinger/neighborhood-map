@@ -30,4 +30,4 @@ HTML
 Clone or download this repo and simply open the index.html file and enjoy!
 
 ## Live Example
-You can find a live running site of this code [here](http://).
+You can find a live running site of this code [here](https://fabioderendinger.github.io/neighborhood-map/).
