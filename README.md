@@ -27,7 +27,7 @@ HTML
 - `index.html` is where all the magic happens and all the data is binded.
 
 ## Installation
-Clone or download this repo and simply open the index.html file and enjoy!
+Clone or download this repo, open the index.html file in your browser and enjoy!
 
-## Live Example
-You can find a live running site of this code [here](https://fabioderendinger.github.io/neighborhood-map/).
+## Live Demo
+You can find a live demo of this project [here](https://fabioderendinger.github.io/neighborhood-map/).
