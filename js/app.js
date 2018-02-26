@@ -408,7 +408,7 @@ var ViewModel = function () {
                 newmarker.setAnimation(google.maps.Animation.BOUNCE);
                 populateInfoWindow(newmarker, largeInfowindow);
             }
-        } else if (self.current().focus() == false) {
+        } else if (self.current().focus() === false) {
             self.current().focus(true);
             populateInfoWindow(newmarker, largeInfowindow);
             newmarker.setAnimation(google.maps.Animation.BOUNCE);
