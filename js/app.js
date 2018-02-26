@@ -14,11 +14,11 @@ var locations = [
 
 // represent a single location
 var Place = function (data) {
-    this.title = ko.observable(data.title),
-        this.location = ko.observable(data.location),
-        this.id = ko.observable(data.id),
-        this.placeID = ko.observable(data.placeID),
-        this.focus = ko.observable(false)
+    this.title = ko.observable(data.title);
+    this.location = ko.observable(data.location);
+    this.id = ko.observable(data.id);
+    this.placeID = ko.observable(data.placeID);
+    this.focus = ko.observable(false);
 };
 
 
@@ -44,7 +44,7 @@ var ViewModel = function () {
 
 
     // KO variable to track whether the List View is hidden or shown on mobile screens
-    this.mobileOptions = ko.observable(false)
+    this.mobileOptions = ko.observable(false);
     // Always show List View on screens larger than 768px
     if (window.innerWidth > 768) {
         self.mobileOptions(true);
@@ -56,7 +56,7 @@ var ViewModel = function () {
         } else {
             self.mobileOptions(false);
         }
-    }
+    };
 
     // GOOGLE MAPS
     // Create a new blank array for all the listing markers.
@@ -243,7 +243,7 @@ var ViewModel = function () {
                     }
                 ]
             }
-        ]
+        ];
         // Constructor creates a new map - only center and zoom are required.
         map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 47.37174, lng: 8.54226 },
@@ -302,10 +302,10 @@ var ViewModel = function () {
                 if (place.focus()){
                     markers[index].setAnimation(google.maps.Animation.BOUNCE);
                 }
-                return true
+                return true;
             } else {
                 markers[index].setMap(null);
-                return false
+                return false;
             }
         });
     });
@@ -314,7 +314,7 @@ var ViewModel = function () {
     // It changes the value of the KO variable "mobileOptions"
     this.toggleOptions = function () {
         self.mobileOptions(!self.mobileOptions());
-    }
+    };
 
     // This function populates the infowindow when the marker is clicked. We'll only allow
     // one infowindow which will open at the marker that is clicked, and populate based
@@ -397,7 +397,7 @@ var ViewModel = function () {
         var prevmarker = markers[self.current().id()];
         var newmarker = markers[clickedPlace.id()];
         getPlaceDetails(newmarker);
-        var index = newmarker.id
+        var index = newmarker.id;
         if (clickedPlace != self.current()) {
             try {
                 prevmarker.setAnimation(null);
@@ -418,7 +418,7 @@ var ViewModel = function () {
             largeInfowindow.newmarker = null;
             newmarker.setAnimation(null);
         }
-    }
+    };
 
     // Get place details for the selected place and store it in the KO variable "placeDetails"
     function getPlaceDetails(marker) {
@@ -436,9 +436,9 @@ var ViewModel = function () {
                 } else { placeDetails.address = "No Address Information Available"; }
                 if (place.opening_hours) {
                     if (place.opening_hours.open_now) {
-                        placeDetails.open_now = "Currently Open"
+                        placeDetails.open_now = "Currently Open";
                     } else {
-                        placeDetails.open_now = "Currently Closed"
+                        placeDetails.open_now = "Currently Closed";
                     }
                 } else { placeDetails.open_now = "No Opening Hours Information Available"; }
                 if (place.website) {
@@ -457,7 +457,7 @@ var ViewModel = function () {
                 }
                 self.placeDetails(placeDetails);
             } else {
-                alert("Failed to load Google Place Details. Check the Console for details.")
+                alert("Failed to load Google Place Details. Check the Console for details.");
                 console.log(status);
             }
         }
@@ -478,7 +478,7 @@ var ViewModel = function () {
                 success: function (x) {
                     var html;
                     if (x.query.search[0].snippet) {
-                        html = '[...] ' + x.query.search[0].snippet + ' [...] <a target="_blank" href=https://de.wikipedia.org/?curid=' + x.query.search[0].pageid + '">Wikipedia</a>'
+                        html = '[...] ' + x.query.search[0].snippet + ' [...] <a target="_blank" href=https://de.wikipedia.org/?curid=' + x.query.search[0].pageid + '">Wikipedia</a>';
                         self.wikiExtract(html);
                     } else {
                         html = "";
@@ -486,13 +486,13 @@ var ViewModel = function () {
                     }
                 },
                 error: function(requestObject, error, errorThrown) {
-                    alert("Failed to load Wikipedia Snippet. Check the Console for details.")
+                    alert("Failed to load Wikipedia Snippet. Check the Console for details.");
                     console.log(requestObject);
                 }
             });
         }
     }
-}
+};
 
 function initApp() {
     ko.applyBindings(new ViewModel());
