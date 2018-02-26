@@ -271,6 +271,8 @@ var ViewModel = function () {
 
             // Push the marker to our array of markers.
             markers.push(marker);
+
+            /* jshint ignore:start */
             // Create an onclick event to open the large infowindow at each marker.
             marker.addListener('click', function () {
                 toggleInfoCard(this, largeInfowindow);
@@ -280,6 +282,7 @@ var ViewModel = function () {
             largeInfowindow.addListener('closeclick', function () {
                 self.current().focus(false);
             });
+            /* jshint ignore:end */
 
             // Extend the boundaries of the map for each marker
             bounds.extend(markers[i].position);
