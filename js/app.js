@@ -10,7 +10,9 @@ var locations = [
 ];
 
 
-
+function googleError() {
+    alert("Ups, something went wrong. We couldn't load the Google Maps API. Check the Console for details.");
+}
 
 // represent a single location
 var Place = function (data) {
@@ -397,20 +399,19 @@ var ViewModel = function () {
     // - Animate marker
     // - Display place details associated with the marker in List View
     this.toggleInfo = function (clickedPlace) {
-        var prevmarker = markers[self.current().id()];
+        var prevmarker = markers[self.current().id()] || null;
         var newmarker = markers[clickedPlace.id()];
         getPlaceDetails(newmarker);
         var index = newmarker.id;
         if (clickedPlace != self.current()) {
-            try {
+            if (prevmarker) {
                 prevmarker.setAnimation(null);
-            } finally {
-                self.current().focus(false);
-                self.current(clickedPlace);
-                self.current().focus(true);
-                newmarker.setAnimation(google.maps.Animation.BOUNCE);
-                populateInfoWindow(newmarker, largeInfowindow);
             }
+            self.current().focus(false);
+            self.current(clickedPlace);
+            self.current().focus(true);
+            newmarker.setAnimation(google.maps.Animation.BOUNCE);
+            populateInfoWindow(newmarker, largeInfowindow);           
         } else if (self.current().focus() === false) {
             self.current().focus(true);
             populateInfoWindow(newmarker, largeInfowindow);
@@ -431,12 +432,8 @@ var ViewModel = function () {
         }, function (place, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
                 var placeDetails = {};
-                if (place.name) {
-                    placeDetails.name = place.name;
-                } else { placeDetails.name = "No Name Information Available"; }
-                if (place.formatted_address) {
-                    placeDetails.address = place.formatted_address;
-                } else { placeDetails.address = "No Address Information Available"; }
+                placeDetails.name = place.name || "No Name Information Available";
+                placeDetails.address = place.formatted_address || "No Address Information Available";
                 if (place.opening_hours) {
                     if (place.opening_hours.open_now) {
                         placeDetails.open_now = "Currently Open";
@@ -477,21 +474,19 @@ var ViewModel = function () {
                     format: 'json',
                     formatversion: 2
                 },
-                dataType: 'jsonp',
-                success: function (x) {
-                    var html;
-                    if (x.query.search[0].snippet) {
-                        html = '[...] ' + x.query.search[0].snippet + ' [...] <a target="_blank" href=https://de.wikipedia.org/?curid=' + x.query.search[0].pageid + '">Wikipedia</a>';
-                        self.wikiExtract(html);
-                    } else {
-                        html = "";
-                        self.wikiExtract(html);
-                    }
-                },
-                error: function(requestObject, error, errorThrown) {
-                    alert("Failed to load Wikipedia Snippet. Check the Console for details.");
-                    console.log(requestObject);
+                dataType: 'jsonp'
+            }).done(function (json) {
+                var html;
+                if (json.query.search[0].snippet) {
+                    html = '[...] ' + json.query.search[0].snippet + ' [...] <a target="_blank" href=https://de.wikipedia.org/?curid=' + json.query.search[0].pageid + '">Wikipedia</a>';
+                    self.wikiExtract(html);
+                } else {
+                    html = "";
+                    self.wikiExtract(html);
                 }
+            }).fail(function(requestObject, error, errorThrown) {
+                alert("Failed to load Wikipedia Snippet. Check the Console for details.");
+                console.log(requestObject);
             });
         }
     }
